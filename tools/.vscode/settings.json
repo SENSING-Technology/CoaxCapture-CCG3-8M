@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "types.h": "c",
+        "byteswap.h": "c",
+        "arm_pcie_protocol.h": "c"
+    }
+}

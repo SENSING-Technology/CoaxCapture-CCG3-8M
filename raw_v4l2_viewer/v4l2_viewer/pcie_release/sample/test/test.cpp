@@ -1,0 +1,204 @@
+#include <iostream>
+
+void convert16to8(unsigned char* src, unsigned char* dst)
+{
+    dst[0] =  ((src[1]<<4)&0xf0) + ((src[0]>>4)&0xf);
+    printf("conver %02x %02x\n",dst[0],dst[1]);
+    return ;
+}
+
+void convert16to12(unsigned char* src, unsigned char* dst)
+{
+    dst[0] = ((src[1]<<4)&0xf0) + ((src[0]>>4)&0xf);
+    dst[1] = ((src[0]<<4)&0xf0) + (src[3]&0xf);
+    dst[2] =src[2];
+    printf("conver %02x %02x %02x\n",dst[0],dst[1],dst[2]);
+    return ;
+}
+
+void convert16to12_seq1(unsigned char* src, unsigned char* dst)
+{
+    //unsigned char src[6];
+
+    dst[0] = ((src[1]<<4)&0xf0) + ((src[0]>>4)&0xf);
+    dst[1] = ((src[3]<<4)&0xf0) + ((src[2]>>4)&0xf);
+    dst[2] = ((src[0]&0xf) + ((src[2]<<4)&0xf0));
+    //printf("convert16to12_seq1 %02x %02x %02x\n",dst[0],dst[1],dst[2]);
+    return ;
+}
+
+unsigned int get_width(int ia)
+{
+    //src0 src2 8bit is value
+    unsigned int width =0;
+    if(0==(ia%2))
+    {
+        return 8;
+    }
+    else
+    {
+        return 4;
+    }
+}
+
+void comb_byte(unsigned int &dst, unsigned char src, unsigned int offset )
+{
+    dst |= (src << offset);
+    //printf("comb_byte dst:%08x src:%02x offset:%d\n",dst,src,offset);
+}
+
+void uncomb_byte(unsigned int &dst, unsigned int width,unsigned int offset)
+{
+    //printf("uncomb_byte dst:%08x width:%02x offset:%d\n",dst,width,offset);
+    unsigned int mask = 0;
+    if(width == 4)
+    {
+        mask = 0xf;
+    }
+    else
+    {
+        mask = 0xff;
+    }
+    mask = (mask << (24-offset));
+    dst &=(~mask);
+    printf("uncomb_byte result dst:%08x width:%02x offset:%d\n",dst,width,offset);
+}
+
+void convert16to12_seqx(unsigned char* src,unsigned int comb_values[])
+{
+    unsigned int temp =0;
+    unsigned int cursor=0;
+    unsigned int four_offsets[24]={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+    for(int ia=0; ia<4;ia++)
+    {
+        //con
+        four_offsets[cursor] = get_width(ia);
+        comb_byte(temp,src[ia],24-(four_offsets[cursor]));
+        int ib =0;
+        for(; ib<4; ib++)
+        {
+            if(ib == ia){
+                continue;
+            }
+            //con
+            four_offsets[cursor] = get_width(ia);
+            four_offsets[cursor] +=  get_width(ib);
+            comb_byte(temp,src[ib],24-(four_offsets[cursor]));
+            int ic=0;
+            for(;ic<4; ic++)
+            {
+                if((ic == ib) || (ic == ia))
+                {
+                    continue;
+                }
+                //con
+                four_offsets[cursor] = get_width(ia);
+                four_offsets[cursor] += get_width(ib);
+                four_offsets[cursor] += get_width(ic);
+                comb_byte(temp,src[ic],24-four_offsets[cursor]);
+                int id =0;
+                for(; id<4; id++)
+                {
+                    if((id == ia)|| (id==ib) || (id==ic))
+                    {
+                        continue;
+                    }
+                    //con
+                   four_offsets[cursor] = get_width(ia);
+                   four_offsets[cursor] += get_width(ib);
+                   four_offsets[cursor] += get_width(ic);
+                   four_offsets[cursor] += get_width(id);
+                   comb_byte(temp,src[id],24-four_offsets[cursor]);
+
+                    comb_values[cursor] = temp;
+                    printf("comb_%d(%d_%d_%d_%d): value(%08x) width(%d)\n",
+                    cursor,ia,ib,ic,id,comb_values[cursor],four_offsets[cursor]);
+                    cursor++;
+                    uncomb_byte(temp,get_width(id),get_width(ia)+get_width(ib)+get_width(ic)+get_width(id));
+                }
+            uncomb_byte(temp,get_width(ic),get_width(ia)+get_width(ib)+get_width(ic));    
+            }
+        uncomb_byte(temp,get_width(ib),get_width(ia)+get_width(ib));    
+        } 
+        uncomb_byte(temp,get_width(ia),get_width(ia));
+    }
+    return ;
+}
+
+void convert12to16(unsigned char* src, unsigned char* dst)
+{
+    unsigned short val1,val2;
+    val1 = (src[0]<<4)|(src[2]&0x0f);
+    val2 = (src[1]<<4)|((src[2]>>4)&0x0f);
+
+    printf("convert12to16 val1:%04x val2:%04x\n",val1,val2);
+
+    val1*=16;
+    val2*=16;
+
+    dst[0]= val1&0xff;
+    dst[1]= (val1>>8)&0xff;
+    dst[2]= val2&0xff;
+    dst[3]= (val2>>8)&0xff;
+    printf("convert12to16 :0x%02x_%02x_%02x_%02x\n",dst[0],dst[1],dst[2],dst[3]);
+}
+
+void save_image_01_10(unsigned int value)
+{
+    int size = 1920*1280*2;
+	char name[256]={0};
+	FILE* fp;
+    //unsigned char src[4] = {0x1a,0x0b,0x3c,0x0d};
+    unsigned char src12[3] = {0x0,0x0,0x0};
+    //unsigned char dst[4] = {0x0,0x0,0x0,0x0};
+    sprintf(name,"RGB16_%04x.raw",value );
+    fp = fopen(name, "wb+");
+    if(fp){
+        /*ret = fwrite(frame->yuvdata, 1, frame->width*frame->height*2, fp);*/
+        for(int i =0; i< size; i+=2)
+        {
+            //fwrite(frame->pdata+i+1, 1, 1,fp);
+            //fwrite(frame->pdata+i, 1,1, fp);
+            fwrite(&value, 1, 2, fp);
+        }
+        
+        fflush(fp);
+        fclose(fp);
+        //printf("%s saved! frame->length:%d\n", name,frame->length);
+    }
+
+    //save_anc(board, channel, frame);
+}
+
+int main(int argc, char *argv[])
+{
+#if 0    
+    unsigned char src[4] = {0x1a,0x0b,0x3c,0x0d};
+    unsigned char src12[3] = {0x0,0x0,0x0};
+    unsigned char dst[4] = {0x0,0x0,0x0,0x0};//{0x3f,0x3f,0x3f,0x3f};
+    unsigned int comb_values[24]={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+    printf("src :0x%02x_%02x_%02x_%02x\n",src[0],src[1],src[2],src[3]);
+    convert16to12_seqx(src,comb_values);
+
+    for(int i=0;i<24;i++)
+    {
+        printf("comb:%d %08x\n",i,comb_values[i]);
+    }
+ #endif
+    printf("%x\n",atoi(argv[1]));
+    save_image_01_10(atoi(argv[1]));
+    //save_image_01_10(0x11);
+    //save_image_01_10(0x1100);    
+    //save_image_01_10(0x03ff);            
+    //save_image_01_10(0xff03);     
+    //convert16to12_seq1(src,src12);
+    //convert12to16(src12,dst);
+
+    //unsigned short sDst = src[0];
+    //sDst += src[1]<<8;
+    //sDst*=16;
+    //printf("src :0x%02x_%02x_%02x_%02x sDst:%04x\n",src[0],src[1],src[2],src[3],sDst);
+    //convert16to8(src,dst);
+    //printf("dst :0x%02x_%02x_%02x_%02x\n",dst[0],dst[1],dst[2],dst[3]);
+    exit ;
+}

@@ -1,0 +1,1 @@
+/usr/bin/c++    -rdynamic CMakeFiles/pcie_preview.dir/src/main.cpp.o  -o pcie_preview  -L/usr/local/ffmpeg/lib -Wl,-rpath,/usr/local/ffmpeg/lib:/home/storage/zu5ev_source/ccg4_sdk_ubuntu_20250422/raw_v4l2_viewer/v4l2_viewer/pcie-hal/build libpcie_camera.so -lpthread -lavcodec -lavfilter -lavutil -lswresample -lavdevice -lavformat -lswscale 

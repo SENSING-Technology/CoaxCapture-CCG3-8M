@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "kernel.h": "c",
+        "types.h": "c",
+        "ratio": "c"
+    }
+}

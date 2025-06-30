@@ -1,0 +1,55 @@
+Determining if the pthread_create exist failed with the following output:
+Change Dir: /home/storage/zu5ev_source/ccg4_sdk_ubuntu_20250422/raw_v4l2_viewer/v4l2_viewer/pcie_release/sample/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_831c2/fast"
+/usr/bin/make -f CMakeFiles/cmTC_831c2.dir/build.make CMakeFiles/cmTC_831c2.dir/build
+make[1]: Entering directory '/home/storage/zu5ev_source/ccg4_sdk_ubuntu_20250422/raw_v4l2_viewer/v4l2_viewer/pcie_release/sample/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_831c2.dir/CheckSymbolExists.c.o
+/usr/bin/cc   -fPIC    -o CMakeFiles/cmTC_831c2.dir/CheckSymbolExists.c.o   -c /home/storage/zu5ev_source/ccg4_sdk_ubuntu_20250422/raw_v4l2_viewer/v4l2_viewer/pcie_release/sample/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
+Linking C executable cmTC_831c2
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_831c2.dir/link.txt --verbose=1
+/usr/bin/cc -fPIC     -rdynamic CMakeFiles/cmTC_831c2.dir/CheckSymbolExists.c.o  -o cmTC_831c2 
+CMakeFiles/cmTC_831c2.dir/CheckSymbolExists.c.o: In function `main':
+CheckSymbolExists.c:(.text+0x1b): undefined reference to `pthread_create'
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_831c2.dir/build.make:97: recipe for target 'cmTC_831c2' failed
+make[1]: *** [cmTC_831c2] Error 1
+make[1]: Leaving directory '/home/storage/zu5ev_source/ccg4_sdk_ubuntu_20250422/raw_v4l2_viewer/v4l2_viewer/pcie_release/sample/build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_831c2/fast' failed
+make: *** [cmTC_831c2/fast] Error 2
+
+File /home/storage/zu5ev_source/ccg4_sdk_ubuntu_20250422/raw_v4l2_viewer/v4l2_viewer/pcie_release/sample/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
+#include <pthread.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef pthread_create
+  return ((int*)(&pthread_create))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+
+Determining if the function pthread_create exists in the pthreads failed with the following output:
+Change Dir: /home/storage/zu5ev_source/ccg4_sdk_ubuntu_20250422/raw_v4l2_viewer/v4l2_viewer/pcie_release/sample/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_40b82/fast"
+/usr/bin/make -f CMakeFiles/cmTC_40b82.dir/build.make CMakeFiles/cmTC_40b82.dir/build
+make[1]: Entering directory '/home/storage/zu5ev_source/ccg4_sdk_ubuntu_20250422/raw_v4l2_viewer/v4l2_viewer/pcie_release/sample/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_40b82.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -fPIC -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_40b82.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.10/Modules/CheckFunctionExists.c
+Linking C executable cmTC_40b82
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_40b82.dir/link.txt --verbose=1
+/usr/bin/cc -fPIC -DCHECK_FUNCTION_EXISTS=pthread_create    -rdynamic CMakeFiles/cmTC_40b82.dir/CheckFunctionExists.c.o  -o cmTC_40b82 -lpthreads 
+/usr/bin/ld: cannot find -lpthreads
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_40b82.dir/build.make:97: recipe for target 'cmTC_40b82' failed
+make[1]: *** [cmTC_40b82] Error 1
+make[1]: Leaving directory '/home/storage/zu5ev_source/ccg4_sdk_ubuntu_20250422/raw_v4l2_viewer/v4l2_viewer/pcie_release/sample/build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_40b82/fast' failed
+make: *** [cmTC_40b82/fast] Error 2
+
+

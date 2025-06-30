@@ -1,0 +1,4 @@
+/home/storage/zu5ev_source/ccg4_sdk_ubuntu_20250422/raw_v4l2_viewer/v4l2_viewer/pcie-hal/build/CMakeFiles/rebuild_cache.dir
+/home/storage/zu5ev_source/ccg4_sdk_ubuntu_20250422/raw_v4l2_viewer/v4l2_viewer/pcie-hal/build/CMakeFiles/edit_cache.dir
+/home/storage/zu5ev_source/ccg4_sdk_ubuntu_20250422/raw_v4l2_viewer/v4l2_viewer/pcie-hal/build/CMakeFiles/pcie_camera.dir
+/home/storage/zu5ev_source/ccg4_sdk_ubuntu_20250422/raw_v4l2_viewer/v4l2_viewer/pcie-hal/build/CMakeFiles/pcie_preview.dir

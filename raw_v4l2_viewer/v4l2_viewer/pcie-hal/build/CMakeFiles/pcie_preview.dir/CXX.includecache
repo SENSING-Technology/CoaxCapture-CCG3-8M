@@ -1,0 +1,30 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../include/camera_common.h
+
+../include/pcie_camera.h
+camera_common.h
+../include/camera_common.h
+
+/home/storage/zu5ev_source/ccg4_sdk_ubuntu_20250422/raw_v4l2_viewer/v4l2_viewer/pcie-hal/src/main.cpp
+iostream
+-
+fstream
+-
+unistd.h
+-
+string.h
+-
+signal.h
+-
+stdlib.h
+-
+pcie_camera.h
+/home/storage/zu5ev_source/ccg4_sdk_ubuntu_20250422/raw_v4l2_viewer/v4l2_viewer/pcie-hal/src/pcie_camera.h
+
