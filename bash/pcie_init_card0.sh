@@ -74,6 +74,7 @@ echo "Card Params Init Processed!"
 #0---->max96705
 #1---->max9295
 #2---->max96717f
+#6---->max96717-ISX028(ES2)
 #camera_serdes_type[0] ---> ch 0 1
 #camera_serdes_type[1] ---> ch 2 3
 #camera_serdes_type[2] ---> ch 4 5
