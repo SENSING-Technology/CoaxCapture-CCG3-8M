@@ -28,14 +28,14 @@ camera_format_set ${camera_input_format_conversion[@]}
 
 
 # Video output yuv format  config {"YUYV" or "UYVY"}
-video_output_yuv_format 0 "YUYV"
-video_output_yuv_format 1 "YUYV"
-video_output_yuv_format 2 "YUYV"
-video_output_yuv_format 3 "YUYV"
-video_output_yuv_format 4 "YUYV"
-video_output_yuv_format 5 "YUYV"
-video_output_yuv_format 6 "YUYV"
-video_output_yuv_format 7 "YUYV"
+video_output_yuv_format 0 "UYVY"
+video_output_yuv_format 1 "UYVY"
+video_output_yuv_format 2 "UYVY"
+video_output_yuv_format 3 "UYVY"
+video_output_yuv_format 4 "UYVY"
+video_output_yuv_format 5 "UYVY"
+video_output_yuv_format 6 "UYVY"
+video_output_yuv_format 7 "UYVY"
 
 # Trigger mode config {0:no trigger; 1:reserved; 2:inner trigger; 3:external trigger}
 card_trigger_signal_mode       	"2"
@@ -61,34 +61,34 @@ camera_triger_delay[7]=0
 trigger_delay ${camera_triger_delay[@]}
 
 # Camera 0-7 resolution: width height   
-camera_resolution 0 1920 1080
-camera_resolution 1 1920 1080
-camera_resolution 2 1920 1080
-camera_resolution 3 1920 1080 
-camera_resolution 4 1920 1080
-camera_resolution 5 1920 1080
-camera_resolution 6 1920 1080
-camera_resolution 7 1920 1080
+camera_resolution 0 2880 1860
+camera_resolution 1 2880 1860
+camera_resolution 2 2064 1552
+camera_resolution 3 2064 1552 
+camera_resolution 4 2064 1552
+camera_resolution 5 2064 1552
+camera_resolution 6 2880 1860
+camera_resolution 7 2880 1860
 echo "Card Params Init Processed!"
 
 #0---->max96705
 #1---->max9295
 #2---->max96717f
 #6---->max96717-ISX028(ES2)
+#7---->S36
 #camera_serdes_type[0] ---> ch 0 1
 #camera_serdes_type[1] ---> ch 2 3
 #camera_serdes_type[2] ---> ch 4 5
 #camera_serdes_type[2] ---> ch 6 7
-#raw camera: 100->ox03c,101->ox08b,102->ar0233,103->ar0820, 104->imx390,105->imx490
+#raw camera: 100->ox03c,101->ox08b,102->ar0233,103->ar0820, 104->imx390,105->imx490  ,107->SHW3G_raw12
 camera_serdes_type[0]=1
 camera_serdes_type[1]=1
-camera_serdes_type[2]=1
-camera_serdes_type[3]=1
+camera_serdes_type[2]=108
+camera_serdes_type[3]=108
 
 camera_serdes_cfg ${camera_serdes_type[@]}
 echo "Serdes Params Init Processed!"
 
 # Report all process passed and exit
 echo "Info: All process in pcie_init.sh passed."
-
 exit 0
