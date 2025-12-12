@@ -303,8 +303,12 @@ function i2ctransfe_fun () {
 }
 
 function camera_serdes_cfg () {
+   # PCIE reset release
+    $tool_path/reg_rw $dev 0x30004 w 0x00 >> $std_out 
+    sleep 1
     echo "serders index:" $1
     #ch 0 1 2 3
+    
 	$tool_path/serdes_cfg $dev 0 $1  >> $std_out
     echo "Serdes 0 Params Init Processed!"
     $tool_path/serdes_cfg $dev 1 $2 >> $std_out
